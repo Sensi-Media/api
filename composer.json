@@ -9,7 +9,13 @@
             "email": "marijn@sensimedia.nl"
         }
     ],
-    "require": {},
+    "require": {
+        "monolyth/disclosure": "^2.1",
+        "monomelodies/monki": "^1.0",
+        "quibble/transformer": "^0.2.0",
+        "psr/http-message": "^1.0",
+        "quibble/query": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "Sensi\\Api\\": "./src"
