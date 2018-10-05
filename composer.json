@@ -9,5 +9,10 @@
             "email": "marijn@sensimedia.nl"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Sensi\\Api\\": "./src"
+        }
+    }
 }
