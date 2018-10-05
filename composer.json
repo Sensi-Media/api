@@ -1,0 +1,13 @@
+{
+    "name": "sensi/api",
+    "description": "API handler",
+    "type": "library",
+    "license": "none",
+    "authors": [
+        {
+            "name": "Marijn Ophorst",
+            "email": "marijn@sensimedia.nl"
+        }
+    ],
+    "require": {}
+}
