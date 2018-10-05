@@ -1,12 +1,15 @@
 <?php
 
+namespace Sensi\Api;
+
 use Monolyth\Disclosure\Container;
 use Monomelodies\Monki\Handler\Crud;
 use Quibble\Transformer\Transformer;
 use Psr\Http\Message\ResponseInterface;
 use Quibble\Query\{ SelectException, UpdateException, DeleteException, Builder };
+use Schema;
 
-class ApiHandler extends Crud
+class Handler extends Crud
 {
     /**
      * @param string $table The table name this ApiHandler instance will operate
@@ -72,7 +75,10 @@ class ApiHandler extends Crud
      */
     public function create() : ResponseInterface
     {
-        $data = $this->transform->resource($_POST, [Schema::class, 'post']);
+        $data = $_POST;
+        if (method_exists([Schema::class, 'post'])) {
+            $data = $this->transform->resource($data, [Schema::class, 'post']);
+        }
         $data = $this->removeVirtuals($data);
         $this->adapter->insertInto($this->table)
             ->execute($data);
