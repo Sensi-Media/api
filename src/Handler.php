@@ -5,7 +5,7 @@ namespace Sensi\Api;
 use Monolyth\Disclosure\Container;
 use Monomelodies\Monki\Handler\Crud;
 use Quibble\Transformer\Transformer;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\{ RequestInterface, ResponseInterface };
 use Quibble\Query\{ SelectException, UpdateException, DeleteException, Builder };
 use Schema;
 
@@ -25,9 +25,10 @@ class Handler extends Crud
 
     /**
      * @Url /count/
+     * @param Psr\Http\Message\RequestInterface $request
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function count() : ResponseInterface
+    public function count(RequestInterface $request) : ResponseInterface
     {
         $query = $this->adapter->selectFrom($this->table);
         if (isset($_GET['filter'])) {
@@ -39,9 +40,10 @@ class Handler extends Crud
     }
 
     /**
+     * @param Psr\Http\Message\RequestInterface $request
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function browse() : ResponseInterface
+    public function browse(RequestInterface $request) : ResponseInterface
     {
         try {
             $query = $this->adapter->selectFrom($this->table);
@@ -71,9 +73,10 @@ class Handler extends Crud
     }
 
     /**
+     * @param Psr\Http\Message\RequestInterface $request
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function create() : ResponseInterface
+    public function create(RequestInterface $request) : ResponseInterface
     {
         $data = $_POST;
         if (method_exists([Schema::class, 'post'])) {
@@ -86,10 +89,11 @@ class Handler extends Crud
     }
 
     /**
+     * @param Psr\Http\Message\RequestInterface $request
      * @param string $id
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function retrieve(string $id) : ResponseInterface
+    public function retrieve(RequestInterface $request, string $id) : ResponseInterface
     {
         $query = $this->adapter->selectFrom($this->table)
             ->where('id = ?', $id);
@@ -118,10 +122,11 @@ class Handler extends Crud
     }
 
     /**
+     * @param Psr\Http\Message\RequestInterface $request
      * @param string $id
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function update(string $id) : ResponseInterface
+    public function update(RequestInterface $request, string $id) : ResponseInterface
     {
         $data = $this->transform->resource($_POST, [Schema::class, 'post']);
         $data = $this->removeVirtuals($data);
@@ -136,10 +141,11 @@ class Handler extends Crud
     }
 
     /**
+     * @param Psr\Http\Message\RequestInterface $request
      * @param string $id
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function delete(string $id) : ResponseInterface
+    public function delete(RequestInterface $request, string $id) : ResponseInterface
     {
         try {
             $result = $this->adapter->deleteFrom($this->table)
