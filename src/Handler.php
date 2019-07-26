@@ -79,13 +79,13 @@ class Handler extends Crud
     public function create(RequestInterface $request) : ResponseInterface
     {
         $data = $_POST;
-        if (method_exists([Schema::class, 'post'])) {
+        if (method_exists(Schema::class, 'post')) {
             $data = $this->transform->resource($data, [Schema::class, 'post']);
         }
         $data = $this->removeVirtuals($data);
         $this->adapter->insertInto($this->table)
             ->execute($data);
-        return $this->retrieve($this->adapter->lastInsertId($this->table));
+        return $this->retrieve($request, $this->adapter->lastInsertId($this->table));
     }
 
     /**
