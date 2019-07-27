@@ -79,7 +79,7 @@ class Handler extends Crud
     public function create(RequestInterface $request) : ResponseInterface
     {
         $data = $_POST;
-        if (method_exists(Schema::class, 'post')) {
+        if (class_exists(Schema::class) && method_exists(Schema::class, 'post')) {
             $data = $this->transform->resource($data, [Schema::class, 'post']);
         }
         $data = $this->removeVirtuals($data);
@@ -128,13 +128,16 @@ class Handler extends Crud
      */
     public function update(RequestInterface $request, string $id) : ResponseInterface
     {
-        $data = $this->transform->resource($_POST, [Schema::class, 'post']);
+        $data = $_POST;
+        if (class_exists(Schema::class) && method_exists(Schema::class, 'post')) {
+            $data = $this->transform->resource($data, [Schema::class, 'post']);
+        }
         $data = $this->removeVirtuals($data);
         try {
             $this->adapter->updateTable($this->table)
                 ->where('id = ?', $id)
                 ->execute($data);
-            return $this->retrieve($id);
+            return $this->retrieve($request, $id);
         } catch (UpdateException $e) {
             return $this->emptyResponse(500);
         }
