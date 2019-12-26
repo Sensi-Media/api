@@ -2,7 +2,7 @@
     "name": "sensimedia/api",
     "description": "API handler",
     "type": "library",
-    "license": "properietary",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Marijn Ophorst",
